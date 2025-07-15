@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    environment {
+        DEPLOY_USER = "ubuntu"
+        DEPLOY_HOST = "13.201.103.120"
+        DEPLOY_PATH = "/home/ubuntu/devops_assignment_5/frontend"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent(['deploy-key-express']) {
+                    sh '''
+                    scp -r * ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}
+
+                    ssh ${DEPLOY_USER}@${DEPLOY_HOST} '
+                        cd ${DEPLOY_PATH} &&
+                        npm install &&
+                        sudo systemctl restart express
+                    '
+                    '''
+                }
+            }
+        }
+    }
+}

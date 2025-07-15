@@ -16,7 +16,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshagent(['deploy-key-express']) {
+                sshagent(['deploy-key']) {
                     sh '''
                     scp -r * ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}
 

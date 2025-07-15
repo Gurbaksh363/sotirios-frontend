@@ -17,15 +17,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(['deploy-key']) {
-                    sh '''
-                    scp -r * ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}
+                    sh """
+                        scp -r * \$DEPLOY_USER@\$DEPLOY_HOST:\$DEPLOY_PATH
 
-                    ssh ${DEPLOY_USER}@${DEPLOY_HOST} '
-                        cd ${DEPLOY_PATH} &&
-                        npm install &&
-                        sudo systemctl restart express
-                    '
-                    '''
+                        ssh \$DEPLOY_USER@\$DEPLOY_HOST '
+                            cd \$DEPLOY_PATH &&
+                            npm install &&
+                            sudo systemctl restart express
+                        '
+                    """
                 }
             }
         }

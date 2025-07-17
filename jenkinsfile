@@ -21,7 +21,7 @@ pipeline {
                         scp -r * \$DEPLOY_USER@\$DEPLOY_HOST:\$DEPLOY_PATH
 
                         ssh \$DEPLOY_USER@\$DEPLOY_HOST '
-                            cd \$DEPLOY_PATH &&
+                            cd /home/ubuntu/devops_assignment_5/frontend &&
                             npm install &&
                             sudo systemctl restart express
                         '
